@@ -54,7 +54,9 @@ try:
             ser.write(str.encode('n'))
             wait = wait - 1
             time.sleep(600/1000)
-            if(wait <= 0 && GPIO.input(24) != 1):
+            if(wait <= 0 and GPIO.input(24) != 1):
+                if(GPIO.input(24) == 1):
+                    print("Car in the way!!)
                 count = 1
                 current = Sys.red
         
