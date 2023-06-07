@@ -13,7 +13,7 @@
 
 unsigned long count = 0;
 unsigned long wait = 30;
-
+char guess;
 typedef struct task {
   int state;
   unsigned long period;
@@ -52,8 +52,8 @@ void tick_send(){
     break;
 
     case send_wait:
-   Serial.print("R1: ");
-    Serial.println(digitalRead(R1));
+ //  Serial.print("R1: ");
+  //  Serial.println(digitalRead(R1));
     if(digitalRead(R1) == HIGH){
 //      Serial.println(count);
       count++;
@@ -103,7 +103,7 @@ void tick_rec(){
     case rec_wait:
     digitalWrite(T1,HIGH);
     digitalWrite(T2,HIGH);
-    digitalWrite(T3,HIGH);
+  //  digitalWrite(T3,HIGH);
     rec_state = rec_rec;
     break;
 
@@ -143,7 +143,21 @@ void tick_light(){
     //Serial.println(count);
     digitalWrite(Red, HIGH);
     digitalWrite(Green,LOW);
-    if(count > 30){
+    if(Serial.available() >0){
+      guess = Serial.read();
+      Serial.print("Guess: ");
+      Serial.println(guess);
+      delay(100);
+Serial.println(guess);
+    if(count > 30 && guess != 'n'){
+      Serial.print("RBGuess: ");
+      Serial.println(guess);
+      light_state = l_green;
+    }
+    else{
+    light_state = l_red;}
+  }
+     if(count > 30 && guess != 'n'){
       light_state = l_green;
     }
     else{
@@ -198,15 +212,15 @@ void setup() {
   pinMode(T2,OUTPUT);
   pinMode(R2,INPUT);
   
-  pinMode(T3,OUTPUT);
-  pinMode(R3,INPUT);
+  //pinMode(T3,OUTPUT);
+  //pinMode(R3,INPUT);
   
   Serial.begin(9600);
 //  initRe();
 //  initTe();
 tone(T1, 38000);
 tone(T2, 38000);
-tone(T3, 38000);
+//tone(T3, 38000);
 
   unsigned char i = 0;
   tasks[i].state = rec_init;
