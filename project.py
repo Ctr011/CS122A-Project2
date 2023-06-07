@@ -54,7 +54,7 @@ try:
             ser.write(str.encode('n'))
             wait = wait - 1
             time.sleep(600/1000)
-            if(wait <= 0):
+            if(wait <= 0 && GPIO.input(24) != 1):
                 count = 1
                 current = Sys.red
         
